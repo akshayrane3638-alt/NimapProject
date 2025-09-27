@@ -27,14 +27,15 @@ const getCategory = async (req, res) => {
 
 const createCategory = async (req, res) => {
     try {
-        const { name } = req.body;
+        const { name , description} = req.body;
         const pool = getPool();
         const result = await pool.request()
             .input('name', sql.NVarChar, name)
+            .input('description', sql.NVarChar, description)
             .query(`
-                INSERT INTO Category (Name) 
+                INSERT INTO Category (Name, description) 
                 OUTPUT INSERTED.CategoryId 
-                VALUES (@name)
+                VALUES (@name, @description)
             `);
         res.status(200).json({ id: result.recordset[0].CategoryId, name });
     } catch (error) {

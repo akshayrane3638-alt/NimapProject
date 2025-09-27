@@ -45,7 +45,7 @@ const getProduct = async (req, res) => {
 
 const createProduct = async (req, res) => {
     try {
-        const { productName, categoryId } = req.body;
+        const { productName, categoryId , description} = req.body;
         const pool = getPool();
         const result = await pool.request()
             .input('productName', sql.NVarChar, productName)
