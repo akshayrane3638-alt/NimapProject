@@ -50,10 +50,11 @@ const createProduct = async (req, res) => {
         const result = await pool.request()
             .input('productName', sql.NVarChar, productName)
             .input('categoryId', sql.Int, categoryId)
+            .input('description', sql.NVarChar, description)
             .query(`
-                INSERT INTO Product (ProductName, CategoryId) 
+                INSERT INTO Product (ProductName, CategoryId, description) 
                 OUTPUT INSERTED.ProductId 
-                VALUES (@productName, @categoryId)
+                VALUES (@productName, @categoryId, @description)
             `);
         res.status(200).json({ productId: result.recordset[0].ProductId, productName, categoryId });
     } catch (error) {

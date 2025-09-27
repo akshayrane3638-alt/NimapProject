@@ -4,7 +4,7 @@ const listCategories = async (req, res) => {
     try {
         const pool = getPool();
         const result = await pool.request()
-            .query(`SELECT CategoryId, Name FROM Category`);
+            .query(`SELECT * FROM Category`);
         res.status(200).json(result.recordset);
     } catch (error) {
         res.status(500).json({ message: "Error fetching categories", error });
@@ -17,7 +17,7 @@ const getCategory = async (req, res) => {
         const pool = getPool();
         const result = await pool.request()
             .input('id', sql.Int, id)
-            .query(`SELECT CategoryId, Name FROM Category WHERE CategoryId=@id`);
+            .query(`SELECT * FROM Category WHERE CategoryId=@id`);
         res.status(200).json(result.recordset[0] || {});
     } catch (error) {
         res.status(500).json({ message: "Error fetching category", error });
