@@ -1,0 +1,64 @@
+<div *ngIf="showContent()">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h3>{{ isEditMode ? 'Edit Category' : 'Add New Category' }}</h3>
+        </div>
+        <div class="card-body">
+
+          <!-- Loader -->
+          <div class="text-center" *ngIf="loading()">
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+
+          <!-- Form -->
+          <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()" *ngIf="!loading()">
+            <div class="mb-3">
+              <label for="name" class="form-label">Name *</label>
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                formControlName="name"
+                [class.is-invalid]="categoryForm.get('name')?.invalid && categoryForm.get('name')?.touched"
+              />
+              <div class="invalid-feedback" *ngIf="categoryForm.get('name')?.invalid && categoryForm.get('name')?.touched">
+                <div *ngIf="categoryForm.get('name')?.errors?.['required']">Name is required</div>
+                <div *ngIf="categoryForm.get('name')?.errors?.['maxlength']">Name cannot exceed 255 characters</div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="description" class="form-label">Description</label>
+              <textarea
+                class="form-control"
+                id="description"
+                rows="3"
+                formControlName="description"
+              ></textarea>
+            </div>
+
+            <div class="d-flex gap-2">
+              <button type="submit" class="btn btn-primary" [disabled]="!categoryForm.valid">
+                {{ isEditMode ? 'Update' : 'Create' }}
+              </button>
+              <button type="button" class="btn btn-secondary" (click)="onCancel()">
+                Cancel
+              </button>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!showContent()" class="text-center">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>

@@ -1,0 +1,54 @@
+<div *ngIf="showContent()">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Categories</h2>
+    <a routerLink="/categories/new" class="btn btn-primary">Add New Category</a>
+  </div>
+
+  <div *ngIf="loading()" class="text-center">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <div *ngIf="!loading()">
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>description</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let category of categories()">
+            <td>{{ category.CategoryId }}</td>
+            <td>{{ category.Name }}</td>
+            <td>{{ category.description }}</td>
+            <td>
+              <button class="btn btn-sm btn-outline-primary me-2" 
+                      (click)="editCategory(category.CategoryId)">
+                Edit
+              </button>
+              <button class="btn btn-sm btn-outline-danger" 
+                      (click)="deleteCategory(category.CategoryId)">
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="categories().length === 0" class="text-center">
+      <p>No categories found. <a routerLink="/categories/new">Create one now</a></p>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!showContent()" class="text-center">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
